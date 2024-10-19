@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AlistyleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="img" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Order_detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="order_id" Type="nvarchar" MaxLength="10" />
+    <Property Name="product_id" Type="nvarchar" MaxLength="10" />
+    <Property Name="quantity" Type="int" />
+  </EntityType>
+  <EntityType Name="Ordertable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="user_id" Type="nvarchar" MaxLength="10" />
+    <Property Name="order_date" Type="datetime" />
+    <Property Name="total_amount" Type="float" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="user_id" Type="nvarchar" MaxLength="10" />
+    <Property Name="datepayment" Type="datetime" />
+    <Property Name="methodpayment" Type="nvarchar" MaxLength="100" />
+    <Property Name="order_detail_id" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="logo" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="description" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="price" Type="float" />
+    <Property Name="category_id" Type="nvarchar" MaxLength="10" />
+    <Property Name="quantity" Type="int" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="150" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__Order_det__order__412EB0B6">
+    <End Role="Ordertable" Type="Self.Ordertable" Multiplicity="0..1" />
+    <End Role="Order_detail" Type="Self.Order_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ordertable">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Order_detail">
+        <PropertyRef Name="order_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Order_det__produ__4222D4EF">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Order_detail" Type="Self.Order_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Order_detail">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Ordertabl__user___3E52440B">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Ordertable" Type="Self.Ordertable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Ordertable">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Payment__order_d__45F365D3">
+    <End Role="Order_detail" Type="Self.Order_detail" Multiplicity="0..1" />
+    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order_detail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="order_detail_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Payment__user_id__44FF419A">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Product__categor__3B75D760">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AlistyleModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order_detail" EntityType="Self.Order_detail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ordertable" EntityType="Self.Ordertable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Order_det__order__412EB0B6" Association="Self.FK__Order_det__order__412EB0B6">
+      <End Role="Ordertable" EntitySet="Ordertable" />
+      <End Role="Order_detail" EntitySet="Order_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Order_det__produ__4222D4EF" Association="Self.FK__Order_det__produ__4222D4EF">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Order_detail" EntitySet="Order_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Ordertabl__user___3E52440B" Association="Self.FK__Ordertabl__user___3E52440B">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Ordertable" EntitySet="Ordertable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Payment__order_d__45F365D3" Association="Self.FK__Payment__order_d__45F365D3">
+      <End Role="Order_detail" EntitySet="Order_detail" />
+      <End Role="Payment" EntitySet="Payment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Payment__user_id__44FF419A" Association="Self.FK__Payment__user_id__44FF419A">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Payment" EntitySet="Payment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Product__categor__3B75D760" Association="Self.FK__Product__categor__3B75D760">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

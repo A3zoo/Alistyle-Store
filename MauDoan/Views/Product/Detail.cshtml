@@ -1,0 +1,224 @@
+﻿@model MauDoan.Context.Product
+
+
+
+@{
+    ViewBag.Title = "Detail";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#addtocart").click(function () {
+            var model = {};
+            //lấy id sản phẩm
+            model.id = '@Model.id';
+            //lấy số lượng đặt hàng
+            model.quantity = $("#ipQuantity").val();
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddToCart", "Cart")',
+                data:  JSON.stringify(model) ,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    alert("Thêm giỏ hàng thành công!")
+                    $('#CartCount').text(@Session["count"] + 1);
+                    window.location.href = '/Cart/Cart';
+                },
+                error: function () {
+                    alert("Lỗi trong khi thêm vào giỏ hàng!");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+@*<a href="~/Views/Category/Category.cshtml">~/Views/Category/Category.cshtml</a>*@
+
+<section class="py-3 bg-light">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Tên danh mục</a></li>
+            <li class="breadcrumb-item"><a href="#">Danh mục phụ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Mặt hàng</li>
+        </ol>
+    </div>
+</section>
+
+
+
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content bg-white padding-y">
+    <div class="container">
+
+        <!-- ============================ ITEM DETAIL ======================== -->
+        <div class="row">
+            <aside class="col-md-6">
+                <div class="card">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                            <div> <a href="#"><img src="~/Content/images/items/@Model.logo"></a></div>
+                        </div> <!-- slider-product.// -->
+                        @*<div class="thumbs-wrap">
+                            <a href="#" class="item-thumb"> <img src="~/Content/images/items/15.jpg"></a>
+                            <a href="#" class="item-thumb"> <img src="~/Content/images/items/15-1.jpg"></a>
+                            <a href="#" class="item-thumb"> <img src="~/Content/images/items/15-2.jpg"></a>
+                            <a href="#" class="item-thumb"> <img src="~/Content/images/items/15-1.jpg"></a>
+                        </div>*@ <!-- slider-nav.// -->
+                    </article> <!-- gallery-wrap .end// -->
+                </div> <!-- card.// -->
+            </aside>
+            <main class="col-md-6">
+
+                <article class="product-info-aside">
+
+                    <h2 class="title mt-3">@Model.name </h2>
+
+                    <div class="rating-wrap my-3">
+                        <ul class="rating-stars">
+                            <li style="width:80%" class="stars-active">
+                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </li>
+                            <li>
+                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </li>
+                        </ul>
+                        <small class="label-rating text-muted">132 đánh giá</small>
+                        <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 154 đơn đặt hàng </small>
+                    </div> <!-- rating-wrap.// -->
+
+                    <div class="mb-3">
+                        <var class="price h4"> @Model.price</var>
+
+                    </div> <!-- price-detail-wrap .// -->
+
+                    <p>
+                        @Model.description
+                    </p>
+
+
+                    <dl class="row">
+
+
+                        <dt class="col-sm-3">Bảo hành</dt>
+                        <dd class="col-sm-9">2 year</dd>
+
+                        <dt class="col-sm-3">Thời gian giao hàng</dt>
+                        <dd class="col-sm-9">3-4 ngày</dd>
+
+                        <dt class="col-sm-3">Tình trạng</dt>
+                        <dd class="col-sm-9">Trong kho</dd>
+                    </dl>
+
+                    <div class="form-row  mt-4">
+                        <div class="form-group col-md flex-grow-0">
+                            <div class="input-group mb-3 input-spinner">
+                                <input type="text" id="ipQuantity" class="form-control" value="1">
+                            </div>
+                        </div> <!-- col.// -->
+                        <div class="form-group col-md">
+                            @*<a href="@Url.Action("AddToCart","Giỏ hàng",new { id = Model.id })" id="addtocart" class="btn  btn-primary">*@
+                            <a href="#" id="addtocart" class="btn  btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="text" h>Thêm vào giỏ hàng</span>
+                            </a>
+                        </div> <!-- col.// -->
+                    </div>
+
+                </article> <!-- product-info-aside .// -->
+            </main> <!-- col.// -->
+        </div> <!-- row.// -->
+        <!-- ================ ITEM DETAIL END .// ================= -->
+
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name padding-y bg">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <h5 class="title-description">Sự miêu tả</h5>
+                <p>
+                    ✔️Kiểu dáng hot trend của năm nay và còn kéo dài trong những năm tiếp theo.
+                    ✔️ Giày đẹp, nhẹ, bền. Giá phải chăng phù hợp với các bạn học sinh, sinh viên. Có thể làm giày đôi, giày nhóm. Thích hợp đi chơi, du lịch, chạy bộ, gym, đi học, đi làm...
+                    ✔️ Dễ phối đồ, có thể kết hợp với váy, jeans, sooc…. Phù hợp với mọi thời tiết từ đông sang hè.
+                    ✔️ Chất liệu: Da cao cấp mềm mại, kết hợp vải sợi thoáng khí bền đẹp theo thời gian
+                    ✔️ Đế giày được làm bằng chất liệu cao su đúc nguyên khối chắc chắn có khắc họa tiết để tăng độ ma sát, chống trơn trượt,tăng chiều cao, nhẹ, êm, cân bằng và thoáng khí
+                </p>
+
+
+              
+
+            </div> <!-- col.// -->
+
+            <aside class="col-md-4">
+
+                <div class="box">
+
+
+
+                    <h5 class="title-description">Videos</h5>
+
+
+                    <article class="media mb-3">
+                        <a href="#"><img class="img-sm mr-3" src="~/Content/images/posts/3.jpg"></a>
+                        <div class="media-body">
+                            <h6 class="mt-0"><a href="#">Cách sử dụng mặt hàng này</a></h6>
+
+                        </div>
+                    </article>
+
+                    <article class="media mb-3">
+                        <a href="#"><img class="img-sm mr-3" src="~/Content/images/posts/2.jpg"></a>
+                        <div class="media-body">
+                            <h6 class="mt-0"><a href="#">Mẹo và thủ thuật mới</a></h6>
+
+                        </div>
+                    </article>
+
+
+
+
+                </div> <!-- box.// -->
+            </aside> <!-- col.// -->
+        </div> <!-- row.// -->
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<!-- ========================= SECTION SUBSCRIBE  ========================= -->
+<section class="padding-y-lg bg-light border-top">
+    <div class="container">
+
+        <p class="pb-2 text-center">Cung cấp các xu hướng sản phẩm mới nhất và tin tức trong ngành ngay tới hộp thư đến của bạn</p>
+
+        <div class="row justify-content-md-center">
+            <div class="col-lg-4 col-sm-6">
+                <form class="form-row">
+                    <div class="col-8">
+                        <input class="form-control" placeholder="Email của bạn" type="email">
+                    </div> <!-- col.// -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-block btn-warning"> <i class="fa fa-envelope"></i> Subscribe </button>
+                    </div> <!-- col.// -->
+                </form>
+                <small class="form-text">Chúng tôi sẽ không bao giờ chia sẻ địa chỉ email của bạn với bên thứ ba. </small>
+            </div> <!-- col-md-6.// -->
+        </div>
+
+
+    </div>
+</section>
+<!-- ========================= SECTION SUBSCRIBE END// ========================= -->

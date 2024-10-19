@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AlistyleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__Product__categor__3B75D760" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Order_detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="order_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="product_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="quantity" Type="Int32" />
+    <NavigationProperty Name="Ordertable" Relationship="Self.FK__Order_det__order__412EB0B6" FromRole="Order_detail" ToRole="Ordertable" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__Order_det__produ__4222D4EF" FromRole="Order_detail" ToRole="Product" />
+    <NavigationProperty Name="Payment" Relationship="Self.FK__Payment__order_d__45F365D3" FromRole="Order_detail" ToRole="Payment" />
+  </EntityType>
+  <EntityType Name="Ordertable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="order_date" Type="DateTime" Precision="3" />
+    <Property Name="total_amount" Type="Double" />
+    <NavigationProperty Name="Order_detail" Relationship="Self.FK__Order_det__order__412EB0B6" FromRole="Ordertable" ToRole="Order_detail" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__Ordertabl__user___3E52440B" FromRole="Ordertable" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="user_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="datepayment" Type="DateTime" Precision="3" />
+    <Property Name="methodpayment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="order_detail_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Order_detail" Relationship="Self.FK__Payment__order_d__45F365D3" FromRole="Payment" ToRole="Order_detail" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__Payment__user_id__44FF419A" FromRole="Payment" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="logo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="price" Type="Double" />
+    <Property Name="category_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="quantity" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="Self.FK__Product__categor__3B75D760" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="Order_detail" Relationship="Self.FK__Order_det__produ__4222D4EF" FromRole="Product" ToRole="Order_detail" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Ordertable" Relationship="Self.FK__Ordertabl__user___3E52440B" FromRole="Users" ToRole="Ordertable" />
+    <NavigationProperty Name="Payment" Relationship="Self.FK__Payment__user_id__44FF419A" FromRole="Users" ToRole="Payment" />
+  </EntityType>
+  <Association Name="FK__Product__categor__3B75D760">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Order_det__order__412EB0B6">
+    <End Role="Ordertable" Type="Self.Ordertable" Multiplicity="0..1" />
+    <End Role="Order_detail" Type="Self.Order_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ordertable">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Order_detail">
+        <PropertyRef Name="order_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Order_det__produ__4222D4EF">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Order_detail" Type="Self.Order_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Order_detail">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Payment__order_d__45F365D3">
+    <End Role="Order_detail" Type="Self.Order_detail" Multiplicity="0..1" />
+    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order_detail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="order_detail_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Ordertabl__user___3E52440B">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Ordertable" Type="Self.Ordertable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Ordertable">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Payment__user_id__44FF419A">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AlistyleEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Category" EntityType="Self.Category" />
+    <EntitySet Name="Order_detail" EntityType="Self.Order_detail" />
+    <EntitySet Name="Ordertable" EntityType="Self.Ordertable" />
+    <EntitySet Name="Payment" EntityType="Self.Payment" />
+    <EntitySet Name="Product" EntityType="Self.Product" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <AssociationSet Name="FK__Product__categor__3B75D760" Association="Self.FK__Product__categor__3B75D760">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Order_det__order__412EB0B6" Association="Self.FK__Order_det__order__412EB0B6">
+      <End Role="Ordertable" EntitySet="Ordertable" />
+      <End Role="Order_detail" EntitySet="Order_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Order_det__produ__4222D4EF" Association="Self.FK__Order_det__produ__4222D4EF">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Order_detail" EntitySet="Order_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Payment__order_d__45F365D3" Association="Self.FK__Payment__order_d__45F365D3">
+      <End Role="Order_detail" EntitySet="Order_detail" />
+      <End Role="Payment" EntitySet="Payment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Ordertabl__user___3E52440B" Association="Self.FK__Ordertabl__user___3E52440B">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Ordertable" EntitySet="Ordertable" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Payment__user_id__44FF419A" Association="Self.FK__Payment__user_id__44FF419A">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Payment" EntitySet="Payment" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

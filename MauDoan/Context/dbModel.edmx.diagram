@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="aa5ff775a7154fb5be0bcd005b9fb2c0" Name="Diagram1">
+        <EntityTypeShape EntityType="AlistyleModel.Category" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlistyleModel.Order_detail" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlistyleModel.Ordertable" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlistyleModel.Payment" Width="1.5" PointX="7.5" PointY="1" IsExpanded="false" />
+        <EntityTypeShape EntityType="AlistyleModel.Product" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlistyleModel.Users" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="AlistyleModel.FK__Product__categor__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="AlistyleModel.FK__Order_det__order__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="AlistyleModel.FK__Order_det__produ__4222D4EF" ManuallyRouted="false" />
+        <AssociationConnector Association="AlistyleModel.FK__Payment__order_d__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="AlistyleModel.FK__Ordertabl__user___3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="AlistyleModel.FK__Payment__user_id__44FF419A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
